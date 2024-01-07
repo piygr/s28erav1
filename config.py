@@ -8,5 +8,5 @@ def get_config():
         epoch_steps=10,
         seq_len=512,
         preload=False,
-        feed_url='https://696a-35-203-132-31.ngrok-free.app/generate'
+        feed_url='https://dad3-35-203-132-31.ngrok-free.app/generate'
     )
