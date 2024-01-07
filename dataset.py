@@ -43,7 +43,7 @@ def fetch_data():
                 q.put( result[i] )
 
 
-        loop.call_later(5, fetch_data)
+    loop.call_later(1, fetch_data)
 
 fetch_data()
 
