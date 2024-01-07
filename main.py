@@ -1,0 +1,57 @@
+from dataset import fetch_batch, tokenizer, cfg
+import torch
+import torch.optim as optim
+
+from phi2.modeling_phi import PhiForCausalLM
+from phi2.configuration_phi import PhiConfig
+
+device = 'cuda' if torch.cuda.is_available() else 'cpu'
+
+model_config = PhiConfig(
+    vocab_size=len(tokenizer),
+    causal=True
+)
+model = PhiForCausalLM(model_config)
+
+model.to(device)
+
+optimizer = optim.Adam(model.parameters(), lr=0.001)
+optimizer.zero_grad()
+
+total_micro_batches = 0
+epoch = 0
+
+step_count = 0
+epoch_loss = []
+
+while True:
+    micro_batch = fetch_batch()
+
+    output = model(
+        input_ids=micro_batch['input'].to(device),
+        attention_mask=micro_batch['mask'].to(device),
+        labels=micro_batch['label'].to(device)
+    )
+
+    loss = output['loss']
+    loss.backward()
+
+    if step_count == 0:
+        print('Epoch:', '%04d' % (epoch), 'Step count: ', step_count, 'loss =', '{:.6f}'.format(loss.item()))
+
+    epoch_loss.append(loss.item())
+
+    total_micro_batches += micro_batch['input'].size(0)
+    if total_micro_batches % cfg.get('batch_size') == 0:
+        optimizer.step()
+        optimizer.zero_grad()
+        step_count += 1
+
+    if step_count % cfg.get('epoch_steps') == 0:
+        b = torch.tensor(epoch_loss, dtype=torch.float32)
+        print('Epoch:', '%04d' % (epoch + 1), 'Step count: ', step_count, 'loss =', '{:.6f}'.format(b.mean()))
+        epoch += 1
+        epoch_loss = []
+
+
+
