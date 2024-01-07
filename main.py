@@ -21,9 +21,10 @@ optimizer.zero_grad()
 total_micro_batches = 0
 epoch = 0
 
-step_count = 0
+step_count = -1
 epoch_loss = []
 
+print('---->>>>> Training logs <<<<<-----')
 while True:
     micro_batch = fetch_batch()
 
@@ -36,8 +37,9 @@ while True:
     loss = output['loss']
     loss.backward()
 
-    if step_count == 0:
+    if step_count == -1:
         print('Epoch:', '%04d' % (epoch), 'Step count: ', step_count, 'loss =', '{:.6f}'.format(loss.item()))
+        step_count += 1
 
     epoch_loss.append(loss.item())
 
@@ -47,7 +49,7 @@ while True:
         optimizer.zero_grad()
         step_count += 1
 
-    if step_count % cfg.get('epoch_steps') == 0:
+    if step_count > 0 and step_count % cfg.get('epoch_steps') == 0:
         b = torch.tensor(epoch_loss, dtype=torch.float32)
         print('Epoch:', '%04d' % (epoch + 1), 'Step count: ', step_count, 'loss =', '{:.6f}'.format(b.mean()))
         epoch += 1
