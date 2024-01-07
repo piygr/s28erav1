@@ -2,6 +2,7 @@ import requests
 import torch
 import queue
 import asyncio
+import time
 
 from transformers import AutoTokenizer
 
@@ -42,7 +43,7 @@ def fetch_data():
                 q.put( result[i] )
 
 
-        loop.call_later(20, fetch_data)
+        loop.call_later(5, fetch_data)
 
 fetch_data()
 
@@ -51,7 +52,7 @@ def fetch_batch():
     global q
 
     while cfg.get('micro_batch_size') > q.qsize():
-        continue
+        time.sleep(5)
 
     inputs = tuple()
     labels = tuple()
