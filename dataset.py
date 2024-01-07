@@ -44,7 +44,7 @@ def fetch_data():
                 q.put( result[i] )
 
 
-    loop.call_later(5, fetch_data)
+    loop.call_later(2, fetch_data)
 
 fetch_data()
 
@@ -52,8 +52,10 @@ fetch_data()
 def fetch_batch():
     global q
 
-    while cfg.get('micro_batch_size') > q.qsize():
-        time.sleep(5)
+    #while cfg.get('micro_batch_size') > q.qsize():
+    #    time.sleep(5)
+    if cfg.get('micro_batch_size') > q.qsize():
+        return None
 
     inputs = tuple()
     labels = tuple()

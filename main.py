@@ -28,6 +28,9 @@ print('---->>>>> Training logs <<<<<-----')
 while True:
     micro_batch = fetch_batch()
 
+    if micro_batch is None:
+        continue
+
     output = model(
         input_ids=micro_batch['input'].to(device),
         attention_mask=micro_batch['mask'].to(device),
