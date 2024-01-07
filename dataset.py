@@ -31,6 +31,7 @@ def casual_mask(size):
 
 
 def fetch_data():
+    print("fetch_data")
     url = cfg.get('feed_url')
     resp = requests.get(url)
     if resp.status_code == 200:
@@ -43,7 +44,7 @@ def fetch_data():
                 q.put( result[i] )
 
 
-    loop.call_later(1, fetch_data)
+    loop.call_later(5, fetch_data)
 
 fetch_data()
 
