@@ -47,19 +47,19 @@ while True:
     epoch_loss.append(loss.item())
 
     total_micro_batches += micro_batch['input'].size(0)
-    print('Total micro batches: ', total_micro_batches)
+    #print('Total micro batches: ', total_micro_batches)
     if total_micro_batches % cfg.get('batch_size') == 0:
-        print('Step backward: ', True)
+        #print('Step backward: ', True)
         optimizer.step()
         optimizer.zero_grad()
         step_count += 1
-        print('Step backward: ', step_count)
+        #print('Step backward: ', step_count)
 
-    if step_count > 0 and step_count % cfg.get('epoch_steps') == 0:
-        b = torch.tensor(epoch_loss, dtype=torch.float32)
-        print('Epoch:', '%04d' % (epoch + 1), 'Step count: ', step_count, 'loss =', '{:.6f}'.format(b.mean()))
-        epoch += 1
-        epoch_loss = []
+        if step_count % cfg.get('epoch_steps') == 0:
+            b = torch.tensor(epoch_loss, dtype=torch.float32)
+            print('Epoch:', '%04d' % (epoch + 1), 'Step count: ', step_count, 'loss =', '{:.6f}'.format(b.mean()))
+            epoch += 1
+            epoch_loss = []
 
 
 

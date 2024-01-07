@@ -31,14 +31,13 @@ def casual_mask(size):
 
 
 def fetch_data():
-    print("fetch_data")
+    #print("fetch_data")
     url = cfg.get('feed_url')
     resp = requests.get(url)
     if resp.status_code == 200:
         result = resp.json()
         count = len(result)
 
-        #print(result)
         if count > 0:
             for i in range(count):
                 q.put( result[i] )
@@ -54,6 +53,7 @@ def fetch_batch():
 
     while cfg.get('micro_batch_size') > q.qsize():
         fetch_data()
+
     #if cfg.get('micro_batch_size') > q.qsize():
     #    return None
 
