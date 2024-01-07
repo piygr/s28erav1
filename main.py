@@ -53,7 +53,9 @@ while True:
         optimizer.step()
         optimizer.zero_grad()
         step_count += 1
-        #print('Step backward: ', step_count)
+
+        #a = torch.tensor(epoch_loss, dtype=torch.float32)
+        print('\t\t', 'Step count: ', step_count, 'loss =', '{:.6f}'.format(loss.item()))
 
         if step_count % cfg.get('epoch_steps') == 0:
             b = torch.tensor(epoch_loss, dtype=torch.float32)
