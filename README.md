@@ -49,6 +49,11 @@ Epoch: 0002 Step count:  20 loss = 7.917281
 Epoch: 0003 Step count:  30 loss = 6.702834
 ```
 
+### Clean Dataset
+Use clean dataset from here. Need to rename sample.mp4 to sample.zip
+to use it.
+https://www.kaggle.com/datasets/piygro/sample-transformer-dataset/
+
 ### data-feed-server.ipynb
 This Jupyter notebook is responsible for generating data-feed for our model training.
 The following piece of code either generates text from a pre-trained transformer (Phi-2) model or reads randomly from sample.zip file
@@ -98,7 +103,8 @@ nest_asyncio.apply()
 uvicorn.run(app, port=port)
 ```
 
-**Note:** _The \<Public URL\> changes every time the code is run_
+**Note:** <ins>_The \<Public URL\> changes every time the code is run_</ins>
+
 ```
 INFO:     Started server process [127]
 INFO:     Waiting for application startup.
@@ -108,4 +114,7 @@ Public URL: https://e60f-35-233-217-40.ngrok-free.app
 when \<Public URL\>/generate API is called it returns an array of texts.
 These texts are either from the stored text-files (sample.zip) or generated from a pre-trained Phi-2 model.
 
+## training.ipynb
+This training notebook is run on colab to train the model. please note that \<Public URL\>/generate needs to be added as **feed_url** in
+_config.py_ file 
 
