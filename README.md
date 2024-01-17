@@ -1,4 +1,4 @@
-# S28ERAV1 - Capstone Project: Part 1
+# Capstone Project: Part 1 (S28ERAV1)
 ## Train LLM from scratch. ##
 
 * You need to select a model that is less than 3B parameters (can be Microsoft's Phi 2 as well, but with random weights, hence training logs are MUST for capstone)
